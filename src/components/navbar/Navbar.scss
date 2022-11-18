@@ -1,0 +1,16 @@
+$sm: 576px;
+$md: 900px;
+
+.bc-red { border: 1px solid red; }
+.bc-green { border: 1px solid green; }
+
+.nav-container {
+  width: 100%;
+  justify-content: end;
+}
+.nav-items {
+  display: flex;
+  align-self: flex-end;
+}
+
+
