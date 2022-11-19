@@ -13,9 +13,14 @@ type NavLinkItem = {
   href?: string;
 };
 
+type NavLogo = {
+  imgName: string;
+  desc?: string;
+};
+
 type NavSearchBar = {
-  label: string;
   placeholder: string;
+  buttonLabel: string;
 };
 
 type NavDropdownItem = {
@@ -25,7 +30,7 @@ type NavDropdownItem = {
 
 type NavBar = {
   title: string;
-  logo?: string;
+  logo?: NavLogo;
   searchBar?: NavSearchBar;
   links?: NavLinkItem[];
   dropdowns?: NavDropdownItem[];
@@ -33,35 +38,55 @@ type NavBar = {
 
 const NavBar: FC<NavBar> = ({
   title,
+  logo,
+  searchBar,
   links = [],
   dropdowns = [],
-  searchBar,
 }) => {
+  const { placeholder, buttonLabel } = searchBar || {};
+  const { desc, imgName } = logo || {};
+  const buttonCta = () => {
+    //Implement call to action here
+    console.log("la cta funziona");
+  };
   return (
     <Navbar bg="light" expand="md lg">
       <Container className="d-flex">
+        
+        {logo ? (
+          <img
+            className="nav-logo"
+            src={require(`../../assets/${imgName}`)}
+            alt={desc ? desc : ""}
+          ></img>
+        ) : null}
+
         <Navbar.Brand href="/">{title}</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          {searchBar ? (
-            <Form className="d-flex bc-red">
-              <Form.Control
-                type="search"
-                placeholder="Search"
-                className="me-2"
-                aria-label="Search"
-              />
-              <Button variant="outline-success">Search</Button>
-            </Form>
-          ) : null}
+        <Navbar.Collapse id="basic-navbar-nav m-2">
           <Nav className="d-flex nav-container">
-            {links.map(({ label, href }) => (
-              <Nav.Link href={href ? `${href}` : undefined}>{label}</Nav.Link>
+            {searchBar ? (
+              <Form className="d-flex">
+                <Form.Control
+                  type="search"
+                  placeholder={placeholder}
+                  className="me-2"
+                  aria-label="Search"
+                />
+                <Button onClick={buttonCta} variant="outline-success">
+                  {buttonLabel}
+                </Button>
+              </Form>
+            ) : null}
+            {links.map(({ label, href }, index) => (
+              <Nav.Link key={index} href={href ? `${href}` : undefined}>
+                {label}
+              </Nav.Link>
             ))}
-            {dropdowns.map(({ label, items = [] }) => (
-              <NavDropdown title={label} id="basic-nav-dropdown">
-                {items.map((dItem) => (
-                  <NavDropdown.Item href={`action/${dItem}`}>
+            {dropdowns.map(({ label, items = [] }, index) => (
+              <NavDropdown key={index} title={label} id="basic-nav-dropdown">
+                {items.map((dItem, index) => (
+                  <NavDropdown.Item key={index} href={`action/${dItem}`}>
                     {dItem}
                   </NavDropdown.Item>
                 ))}

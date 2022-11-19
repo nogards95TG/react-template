@@ -1,6 +1,11 @@
 $sm: 576px;
 $md: 900px;
 
+* {
+  padding: 0;
+  margin: 0;
+}
+
 .bc-red { border: 1px solid red; }
 .bc-green { border: 1px solid green; }
 
@@ -8,9 +13,12 @@ $md: 900px;
   width: 100%;
   justify-content: end;
 }
+.nav-logo {
+  width: 32px;
+  height: 32px;
+}
 .nav-items {
   display: flex;
   align-self: flex-end;
 }
-
 
