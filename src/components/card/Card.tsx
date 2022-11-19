@@ -15,10 +15,10 @@ type TCard = {
   text: string;
   buttonLabel: string;
   width?: number;
+  height?: number;
   img?: {
     name: string;
     alt: string;
-    isBgImg?: boolean;
   };
 };
 
@@ -28,9 +28,10 @@ const ICard: FC<TCard> = ({
   text,
   buttonLabel,
   width,
+  height = 180,
   img,
 }) => {
-  const { name: imgName, alt, isBgImg = false } = img || {};
+  const { name: imgName, alt } = img || {};
   const buttonCta = () => {
     //Implement CTA here
     console.log("call to action");
@@ -40,29 +41,21 @@ const ICard: FC<TCard> = ({
     <Box
       style={{
         width: width ? `${width}rem` : "16rem",
-        position: isBgImg ? "relative" : undefined,
+        position: 'relative'
       }}
+      className='m-2'
     >
       <Card>
         {img ? (
-          !isBgImg ? (
-            <CardMedia
-              component="img"
-              height="140"
-              alt={alt}
-              src={!isBgImg ? require(`../../assets/${imgName}`) : undefined}
-            />
-          ) : (
-            <CardMedia
-              component="img"
-              className="bg-img"
-              alt={alt}
-              src={isBgImg ? require(`../../assets/${imgName}`) : undefined}
-            />
-          )
+          <CardMedia
+            component="img"
+            height={`${height}`}
+            alt={alt}
+            src={require(`../../assets/${imgName}`)}
+          />
         ) : null}
         <React.Fragment>
-          <CardContent className={isBgImg ? "black-layer" : undefined}>
+          <CardContent className="black-layer">
             <Typography variant="h5">{title}</Typography>
             {subtitle ? (
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
